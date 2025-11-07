@@ -53,6 +53,8 @@ const aggregation = await collection
   .toArray();
 ```
 
+**Campos:** `avg`, `count`
+
 ## Ejecutar
 
 ```bash
