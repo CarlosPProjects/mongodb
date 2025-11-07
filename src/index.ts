@@ -5,7 +5,7 @@ const uri = process.env.MONGODB_URI;
 const dbName = "top50";
 
 if (!uri) {
-  throw new Error('MONGODB_URI no está definida en .env');
+  throw new Error("MONGODB_URI no está definida en .env");
 }
 
 const client = new MongoClient(uri);
@@ -18,22 +18,29 @@ async function main() {
     const db = client.db(dbName);
     const collection = db.collection<Player>("top50");
 
-    const aggregation = await collection.aggregate([
-      {
-        $group: {
-          _id: "$bio.residence",
-          avg: { $avg: "$career.totals.win_rate"}
-        }
-      },
-    ]).toArray();
+    const aggregation = await collection
+      .aggregate([
+        {
+          $group: {
+            _id: "$bio.residence",
+            avg: { $avg: "$career.totals.win_rate" },
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $match: {
+            count: { $gt: 1 },
+          },
+        },
+      ])
+      .toArray();
 
     console.log(JSON.stringify(aggregation, null, 2));
-
   } catch (error) {
-    console.error("Error", error)
+    console.error("Error", error);
   } finally {
     await client.close();
   }
 }
 
-main()
+main();

@@ -4,6 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "format": "prettier --write .",
     "dev": "bun run src/index.ts"
   },
   "devDependencies": {
@@ -13,6 +14,7 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "mongodb": "^7.0.0"
+    "mongodb": "^7.0.0",
+    "prettier": "^3.6.2"
   }
 }
